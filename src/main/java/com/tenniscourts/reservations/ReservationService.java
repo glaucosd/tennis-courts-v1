@@ -73,6 +73,18 @@ public class ReservationService {
 
     /*TODO: This method actually not fully working, find a way to fix the issue when it's throwing the error:
             "Cannot reschedule to the same slot.*/
+    
+     /* Aparentemente ele cancela o Reservation e não carrega. Mas não vejo algo errado no código.
+     * 
+     * Talvez quando ele caí no throw ele já cancelou o reservation. Então deveria verificar se foi agendado no mesmo slot, no início do método. 
+     * Pra isso tem que carregar o previousReservation no início do Método.
+     * Mas isso seria mais regra de negócio do que correção propriamente dita.
+     * 
+     * Se a regra de negócio do método diz que tem que salvar o previous pra poder setar o status schedule, então o save pro previousReservation está correto.
+     * Se não, o save deveria ocorrer pro scheduleId, então ficaria reservationRepository.save(scheduleId);
+     * 
+     * */
+    
     public ReservationDTO rescheduleReservation(Long previousReservationId, Long scheduleId) {
         Reservation previousReservation = cancel(previousReservationId);
 
