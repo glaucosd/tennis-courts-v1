@@ -1,0 +1,165 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Tennis server."
+  version: "1.0.0"
+  title: "Swagger Tennis"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "glaucosd@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "tennis.swagger.io"
+basePath: "/v2"
+tags:
+- name: "Tennis"
+  description: ""
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+- name: "Reservas"
+  description: ""
+  externalDocs:
+    description: "Find out more about fiels"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /bookReservation:
+    post:
+      tags:
+      - ""
+      summary: "Reservations"
+      description: "Book Reservations"
+      operationId: "book reservation"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/ReservationDTO"
+      responses:
+        default:
+          description: "successful operation"
+  /findReservation/{reservationId}:
+    get:
+      tags:
+      - ""
+      summary: "Get reservation by Id"
+      description: ""
+      operationId: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "reservationId"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReservationDTO"
+        "400":
+          description: ""
+        "404":
+          description: "Id not found"
+  /cancel/{reservationId}:
+    delete:
+      tags:
+      - ""
+      summary: "Get reservation by Id"
+      description: ""
+      operationId: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "reservationId"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReservationDTO"
+        "400":
+          description: ""
+        "404":
+          description: "Id not found"
+  /rescheduleReservation/{reservationId}:
+    get:
+      tags:
+      - ""
+      summary: "Get reservation by Id"
+      description: ""
+      operationId: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "reservationId"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReservationDTO"
+        "400":
+          description: ""
+        "404":
+          description: "Id not found"
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://tennis.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:tennis: "modify fields in your reservation"
+      read:tennis: "fields"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+
+  ReservationDTO:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      schedule:
+        type: "string"
+      reservationStatus:
+        type: "string"
+      previousReservation:
+        type: "string"
+      refundValue:
+        type: "integer"
+        format: "int32"
+      value:
+        type: "integer"
+        format: "int32"
+      scheduledId:
+        type: "integer"
+        format: "int32"
+      guestId:
+        type: "integer"
+        format: "int32"
+        description: "User Status"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
