@@ -75,7 +75,7 @@ paths:
     delete:
       tags:
       - ""
-      summary: "Get reservation by Id"
+      summary: "Delete reservation by Id"
       description: ""
       operationId: ""
       produces:
@@ -110,6 +110,11 @@ paths:
       - name: "reservationId"
         in: "path"
         description: ""
+        required: true
+        type: "integer"
+      - name: "scheduleId"
+        in: "query"
+        description: "The schedule number"
         required: true
         type: "integer"
       responses:
