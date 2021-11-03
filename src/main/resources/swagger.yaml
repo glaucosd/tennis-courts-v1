@@ -100,7 +100,7 @@ paths:
     get:
       tags:
       - ""
-      summary: "Get reservation by Id"
+      summary: "Reschedule reservation"
       description: ""
       operationId: ""
       produces:
