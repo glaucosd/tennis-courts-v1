@@ -71,26 +71,34 @@ public class ReservationService {
         return BigDecimal.ZERO;
     }
 
-    /*TODO: This method actually not fully working, find a way to fix the issue when it's throwing the error:
+   /*TODO: This method actually not fully working, find a way to fix the issue when it's throwing the error:
             "Cannot reschedule to the same slot.*/
     
-     /* Aparentemente ele cancela o Reservation e não carrega. Mas não vejo algo errado no código.
+  /* Aparentemente o método cancela o Reservation e não carrega. 
+     *  
+     *  Da maneira que estava ele iria carregar o previousReservation pra comparar com o schedule. 
+     *  Mas se caísse no throw ele não cancelava o previous.
+     *  Só cancelaria se passasse da condição do throw. Mas pode ser que essa era a regra de negócio.
      * 
-     * Talvez quando ele caí no throw ele já cancelou o reservation. Então deveria verificar se foi agendado no mesmo slot, no início do método. 
-     * Pra isso tem que carregar o previousReservation no início do Método.
-     * Mas isso seria mais regra de negócio do que correção propriamente dita.
-     * 
-     * Se a regra de negócio do método diz que tem que salvar o previous pra poder setar o status schedule, então o save pro previousReservation está correto.
-     * Se não, o save deveria ocorrer pro scheduleId, então ficaria reservationRepository.save(scheduleId);
-     * 
+     *  Se realmente o problema era esse, teria que localizar a reserva, pra só depois fazer o cancel.
+     *  Então:
      * */
     
     public ReservationDTO rescheduleReservation(Long previousReservationId, Long scheduleId) {
-        Reservation previousReservation = cancel(previousReservationId);
+    	
+    	/* Localizar a reserva */
+    	ReservationDTO previousReservation = findReservation(previousReservationId);
 
         if (scheduleId.equals(previousReservation.getSchedule().getId())) {
             throw new IllegalArgumentException("Cannot reschedule to the same slot.");
         }
+
+        /* Só agora poderia cancelar a reserva */
+        Reservation previousReservation = cancel(previousReservationId);
+        
+        /* Do jeito que estava este bloco acima, ele cancelava primeiro pra depois comparar se podia transferir. Se nao pudesse, ficava cancelado.
+        *  Desse jeito alterado ele compara antes de cancelar.
+        *  */
 
         previousReservation.setReservationStatus(ReservationStatus.RESCHEDULED);
         reservationRepository.save(previousReservation);
